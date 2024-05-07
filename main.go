@@ -20,11 +20,16 @@ func main() {
 	flag.Parse()
 
 	fmt.Println("Reading files...")
-	f.Init(path)
+	err := f.Init(path)
+	if err != nil {
+		fmt.Println("Unexpected error or a file in path")
+		fmt.Println(err)
+		return
+	}
 	f.GetSizes()
 	if raw {
 		f.List(decreasing)
 	} else {
-        f.ListRaw(decreasing)
+		f.ListRaw(decreasing)
 	}
 }

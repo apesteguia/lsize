@@ -1,6 +1,7 @@
 package size
 
 import (
+	"errors"
 	"fmt"
 	"os"
 	"sort"
@@ -14,6 +15,18 @@ type Files struct {
 }
 
 func (f *Files) Init(path string) error {
+	if path[len(path)-1] != '/' {
+		path += "/"
+	}
+
+    if info, err := os.Stat(path); err != nil {
+        return err
+    } else {
+        if !info.IsDir() {
+            return errors.New("Files can't be listed")
+        }
+    }
+
 	err := f.Self.GetSize(path)
 	f.N = 0
 	f.LongestName = 0

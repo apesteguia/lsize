@@ -16,7 +16,7 @@ func main() {
 	var f s.Files
 	flag.StringVar(&path, "path", "./", "Path to list")
 	flag.BoolVar(&decreasing, "order", true, "Default: true, order of the listing")
-	flag.BoolVar(&raw, "raw", true, "Displays the raw data if user wants to parse it ")
+	flag.BoolVar(&raw, "raw", false, "Displays the raw data if user wants to parse it ")
 	flag.Parse()
 
 	fmt.Println("Reading files...")
@@ -27,7 +27,7 @@ func main() {
 		return
 	}
 	f.GetSizes()
-	if raw {
+	if !raw {
 		f.List(decreasing)
 	} else {
 		f.ListRaw(decreasing)

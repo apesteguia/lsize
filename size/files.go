@@ -1,6 +1,7 @@
 package size
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"os"
@@ -19,13 +20,13 @@ func (f *Files) Init(path string) error {
 		path += "/"
 	}
 
-    if info, err := os.Stat(path); err != nil {
-        return err
-    } else {
-        if !info.IsDir() {
-            return errors.New("Files can't be listed")
-        }
-    }
+	if info, err := os.Stat(path); err != nil {
+		return err
+	} else {
+		if !info.IsDir() {
+			return errors.New("Files can't be listed")
+		}
+	}
 
 	err := f.Self.GetSize(path)
 	f.N = 0
@@ -87,7 +88,6 @@ func (f *Files) List(order bool) {
 			if !v.File {
 				fileType = "[Folder]"
 			}
-			// realSizeStr := fmt.Sprintf("%-*s", f.LongestName, v.RealSize)
 			fmt.Printf("%s  %-*s  (%s)\n", fileType, f.LongestName, v.Name, v.RealSize)
 		}
 	} else {
@@ -105,11 +105,19 @@ func (f *Files) List(order bool) {
 func (f *Files) ListRaw(order bool) {
 	if order {
 		for _, v := range f.F {
-			fmt.Println(v)
+			x, err := json.Marshal(v)
+			if err != nil {
+				fmt.Println(err)
+			}
+			fmt.Println(string(x))
 		}
 	} else {
 		for i := len(f.F) - 1; i >= 0; i-- {
-			fmt.Println(f.F[i])
+			x, err := json.Marshal(f.F[i])
+			if err != nil {
+				fmt.Println(err)
+			}
+			fmt.Println(string(x))
 		}
 	}
 }

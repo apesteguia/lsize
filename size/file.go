@@ -13,26 +13,29 @@ type File struct {
 	Name     string
 	Size     float64
 	RealSize string
-    File     bool
+	File     bool
 }
 
 var sizes = []byte{'B', 'K', 'M', 'G', 'T'}
 
 func (f *File) GetSize(path string) error {
 	f.Path = path
-	splitted := strings.Split(path, "/")
-	f.Name = splitted[len(splitted)-1]
+	var cmd *exec.Cmd
 
-	cmd := exec.Command("du", "-sh", f.Path)
+	if path != "/" {
+		splitted := strings.Split(path, "/")
+		f.Name = splitted[len(splitted)-1]
+		cmd = exec.Command("du", "-sh", f.Path)
+	} else {
+		cmd = exec.Command("sudo", "du", "-sh", f.Path)
+	}
+
 	stdout, err := cmd.Output()
 	if err != nil {
 		return err
 	}
 
-	ssize, size, err := realSize(string(stdout))
-	if err != nil {
-		return err
-	}
+	ssize, size, _ := realSize(string(stdout))
 	f.Size = size
 	f.RealSize = ssize
 
@@ -49,7 +52,7 @@ func realSize(str string) (string, float64, error) {
 
 	v, err := strconv.ParseFloat(sizeStr, 64)
 	if err != nil {
-		return "No data", 0, err
+		return "0.0K", 0, err
 	}
 
 	for i, s := range sizes {

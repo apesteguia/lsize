@@ -4,8 +4,10 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"lsize/progress"
 	"os"
 	"sort"
+	// "time"
 )
 
 type Files struct {
@@ -13,6 +15,7 @@ type Files struct {
 	Self        File
 	N           int
 	LongestName int
+	pr          progress.Progress
 }
 
 func (f *Files) Init(path string) error {
@@ -51,6 +54,7 @@ func (f *Files) GetSizes() error {
 	}
 
 	f.F = make([]File, len(infos))
+	f.pr.Init(len(infos))
 
 	for i, info := range infos {
 		if info.IsDir() {
@@ -65,6 +69,8 @@ func (f *Files) GetSizes() error {
 
 		f.F[i].GetSize(f.Self.Path + info.Name())
 		f.N += 1
+		f.pr.Update(1)
+		f.pr.Display()
 	}
 
 	f.Sort()

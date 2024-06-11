@@ -55,6 +55,7 @@ func (f *Files) GetSizes() error {
 
 	f.F = make([]File, len(infos))
 	f.pr.Init(len(infos))
+	f.pr.Display()
 
 	for i, info := range infos {
 		if info.IsDir() {
@@ -73,6 +74,7 @@ func (f *Files) GetSizes() error {
 		f.pr.Display()
 	}
 
+	f.pr.Display()
 	f.Sort()
 
 	return nil

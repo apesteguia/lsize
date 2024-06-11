@@ -19,7 +19,6 @@ func main() {
 	flag.BoolVar(&raw, "raw", false, "Displays the raw data if user wants to parse it ")
 	flag.Parse()
 
-	fmt.Println("Reading files...")
 	err := f.Init(path)
 	if err != nil {
 		fmt.Println("Unexpected error or a file in path")

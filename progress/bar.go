@@ -1,6 +1,8 @@
 package progress
 
-import "fmt"
+import (
+	"fmt"
+)
 
 type Progress struct {
 	len        int
@@ -22,13 +24,16 @@ func (p *Progress) Init(len int) {
 func (p *Progress) Update(percentage int) {
 	p.percentage += percentage
 	for i := range p.percentage {
-    p.chars[i] = '='
+		p.chars[i] = '='
 	}
 }
 
 func (p *Progress) Display() {
-	fmt.Print("\033[F\033[K")
-  fmt.Printf("(%d/%d)", p.percentage, p.len)
+	//fmt.Print("\033[F\033[K")
+	fmt.Print("\033[F") // Mueve el cursor una línea hacia arriba
+	fmt.Print("\033[K") // Borra la línea actual
+
+	fmt.Printf("(%d/%d)", p.percentage, p.len)
 	fmt.Print("[")
 	for _, v := range p.chars {
 		fmt.Print(string(v))

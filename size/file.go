@@ -3,7 +3,6 @@ package size
 import (
 	"fmt"
 	"math"
-	"os"
 	"os/exec"
 	"strconv"
 	"strings"

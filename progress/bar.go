@@ -5,8 +5,8 @@ import (
 )
 
 type Progress struct {
-	len        int
 	chars      []rune
+	len        int
 	percentage int
 }
 
@@ -30,8 +30,8 @@ func (p *Progress) Update(percentage int) {
 
 func (p *Progress) Display() {
 	//fmt.Print("\033[F\033[K")
-	fmt.Print("\033[F") // Mueve el cursor una línea hacia arriba
-	fmt.Print("\033[K") // Borra la línea actual
+	fmt.Print("\033[F")
+	fmt.Print("\033[K")
 
 	fmt.Printf("(%d/%d)", p.percentage, p.len)
 	fmt.Print("[")

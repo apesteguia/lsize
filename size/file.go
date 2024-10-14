@@ -16,7 +16,7 @@ type File struct {
 	File     bool
 }
 
-var sizes = []byte{'B', 'K', 'M', 'G', 'T'}
+var sizes = [5]byte{'B', 'K', 'M', 'G', 'T'}
 
 func (f *File) GetSize(path string) error {
 	f.Path = path
